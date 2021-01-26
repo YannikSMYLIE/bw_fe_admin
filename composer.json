@@ -1,0 +1,23 @@
+{
+  "name": "boergenerwebdesign/bw-fe-admin",
+  "type": "typo3-cms-extension",
+  "description": "Frontend Login aus dem Backend.",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "typo3/cms-core": "^10.4"
+  },
+  "replace": {
+    "boergenerwebdesign/bw-fe-admin": "self.version",
+    "typo3-ter/bw-fe-admin": "self.version"
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "bw_fe_admin"
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "BoergenerWebdesign\\BwFeAdmin\\": "Classes/"
+    }
+  }
+}
