@@ -1,8 +1,7 @@
 <?php
 namespace BoergenerWebdesign\BwFeAdmin\Middleware;
 
-use BoergenerWebdesign\BwCourse\Domain\Model\FrontendUser;
-use BoergenerWebdesign\BwFeAdmin\Utilities\FrontendUriBuilderUtility;
+use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;

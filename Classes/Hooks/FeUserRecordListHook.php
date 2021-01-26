@@ -1,8 +1,7 @@
 <?php
 namespace BoergenerWebdesign\BwFeAdmin\Hooks;
 
-use BoergenerWebdesign\BwCourse\Domain\Model\FrontendUser;
-use BoergenerWebdesign\BwFeAdmin\Utilities\FrontendUriBuilderUtility;
+use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Imaging\Icon;
