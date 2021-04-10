@@ -126,8 +126,8 @@ class FeUserRecordListHook implements RecordListHookInterface {
         /** @var SiteFinder $siteFinder */
         $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
 
-        $site = $siteFinder ->getSiteByPageId($pageUid);
-        return "//".$site -> getBase()."?feadmin_uid=".$user -> getUid();
+        $site = $siteFinder -> getSiteByPageId($pageUid);
+        return $site -> getBase()."?feadmin_uid=".$user -> getUid();
     }
 
 }
