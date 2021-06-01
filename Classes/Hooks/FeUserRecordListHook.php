@@ -16,13 +16,13 @@ use TYPO3\CMS\Recordlist\RecordList\RecordListHookInterface;
 
 class FeUserRecordListHook implements RecordListHookInterface {
     /** @var UriBuilder  */
-    protected UriBuilder $uriBuilder;
+    protected $uriBuilder;
     /** @var IconFactory  */
-    protected IconFactory $iconFactory;
+    protected $iconFactory;
     /** @var ObjectManager  */
-    protected ObjectManager $objectManager;
+    protected $objectManager;
     /** @var FrontendUserRepository  */
-    protected FrontendUserRepository $frontendUserRepository;
+    protected $frontendUserRepository;
 
     /**
      * FeUserRecordListHook constructor.

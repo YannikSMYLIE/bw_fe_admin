@@ -14,9 +14,9 @@ use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 
 class SwitchUserMiddleware implements MiddlewareInterface {
     /** @var ObjectManager  */
-    protected ObjectManager $objectManager;
+    protected $objectManager;
     /** @var FrontendUserRepository  */
-    protected FrontendUserRepository $frontendUserRepository;
+    protected $frontendUserRepository;
 
     /**
      * AjaxController constructor.
