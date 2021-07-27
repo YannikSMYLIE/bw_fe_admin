@@ -4,7 +4,7 @@
   "description": "Frontend Login aus dem Backend.",
   "license": "GPL-2.0-or-later",
   "require": {
-    "typo3/cms-core": "^10.4"
+    "typo3/cms-core": "^10.4 || ^11.3"
   },
   "replace": {
     "boergenerwebdesign/bw-fe-admin": "self.version",
