@@ -1,0 +1,7 @@
+# Configuration/Services.yaml
+
+services:
+  BoergenerWebdesign\BwFeAdmin\Middleware\SwitchUserMiddleware:
+    public: true
+    arguments:
+      $persistenceManager: '@TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager'

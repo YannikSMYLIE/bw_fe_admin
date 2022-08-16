@@ -1,33 +1,16 @@
 <?php
 namespace BoergenerWebdesign\BwFeAdmin\Middleware;
 
-use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
+use BoergenerWebdesign\BwFeAdmin\Authentication\MiddlewareAuthentication;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 
 class SwitchUserMiddleware implements MiddlewareInterface {
-    /** @var ObjectManager  */
-    protected ObjectManager $objectManager;
-    /** @var FrontendUserRepository  */
-    protected FrontendUserRepository $frontendUserRepository;
-
-    /**
-     * AjaxController constructor.
-     */
-    public function __construct() {
-        $this -> objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        /** @var FrontendUserRepository $accountRepository */
-        $this -> frontendUserRepository = $this -> objectManager->get(FrontendUserRepository::class);
-    }
-
-
     /**
      * Bearbeitet die Anfrage.
      * @param ServerRequestInterface $request
@@ -46,26 +29,16 @@ class SwitchUserMiddleware implements MiddlewareInterface {
 
         // Prüfen ob aktueller BE-User Administrator*in ist
         $this -> checkIfBeUserIsAdmin();
-        // Prüfen ob Benutzer*in existiert
-        $user = $this -> getFrontendUser($request -> getQueryParams()["feadmin_uid"]);
 
-        // Einloggen!
-        $userArray = $GLOBALS['TSFE']->fe_user->getRawUserByName($user -> getUsername());
+        // Session erzeugen
+        /** @var FrontendUserAuthentication $frontendUser */
+        $frontendUser = GeneralUtility::makeInstance(MiddlewareAuthentication::class);
+        $frontendUser -> start($request, $request -> getQueryParams()["feadmin_uid"]);
 
-        $userAuth = $this->objectManager->get(FrontendUserAuthentication::class);
-        $userAuth->checkPid = false;
-        $GLOBALS['TSFE']->fe_user->forceSetCookie = TRUE;
-        $GLOBALS['TSFE']->fe_user->dontSetCookie = false;
-        $GLOBALS['TSFE']->fe_user->start();
-        $GLOBALS['TSFE']->fe_user->createUserSession($userArray);
-        $GLOBALS['TSFE']->fe_user->setAndSaveSessionData('dummy', TRUE);
-        $GLOBALS['TSFE']->fe_user->loginUser = 1;
-
-        $GLOBALS['TSFE']->fe_user->user = $GLOBALS['TSFE']->fe_user->fetchUserSession();
-        $GLOBALS['TSFE']->fe_user->fetchGroupData();
-        $GLOBALS['TSFE']->loginUser = true;
-
-        return $handler->handle($request);
+        // Login in Session speichern
+        $response = new RedirectResponse($this -> getRedirectUri($request), 302);
+        $frontendUser->storeSessionData();
+        return $frontendUser->appendCookieToResponse($response);;
     }
 
     /**
@@ -87,16 +60,11 @@ class SwitchUserMiddleware implements MiddlewareInterface {
     }
 
     /**
-     * Ermittelt den FrontendUser.
-     * @param int $uid
-     * @return FrontendUser
-     * @throws \Exception
+     * Returns the current URI without parameters.
+     * @param ServerRequestInterface $request
+     * @return string
      */
-    private function getFrontendUser(int $uid) : FrontendUser {
-        $user = $this -> frontendUserRepository -> findByUid($uid);
-        if(!$user) {
-            throw new \Exception("Der gewünschte Benutzer konnte nicht gefunden werden!", 1611618646);
-        }
-        return $user;
+    private function getRedirectUri(ServerRequestInterface $request) : string {
+        return $request -> getUri() -> getScheme()."://".$request -> getUri() -> getHost().$request -> getUri() -> getPath();
     }
 }
