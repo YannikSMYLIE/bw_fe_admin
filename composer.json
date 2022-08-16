@@ -7,8 +7,8 @@
     "typo3/cms-core": "^10.4 || ^11.3"
   },
   "replace": {
-    "boergenerwebdesign/bw-fe-admin": "self.version",
-    "typo3-ter/bw-fe-admin": "self.version"
+    "boergenerwebdesign/bw_fe_admin": "self.version",
+    "typo3-ter/bw_fe_admin": "self.version"
   },
   "extra": {
     "typo3/cms": {
