@@ -45,15 +45,16 @@ class FeUserRecordListHook implements RecordListHookInterface {
         if($table == "fe_users") {
             // FE-User einlesen
             $user = $this -> getFrontendUser($row['uid']);
-            // Root-Page Uid ermitteln
-            $rootPage = $this -> getFrontendUsersRoot($user);
-            // Weiterleitungs URL finden
-            $uri = $this -> buildFrontendUri($user, $rootPage);
+            if ($user) {
+                // Root-Page Uid ermitteln
+                $rootPage = $this->getFrontendUsersRoot($user);
+                // Weiterleitungs URL finden
+                $uri = $this->buildFrontendUri($user, $rootPage);
 
-            $params = 'data[' . $table . '][' . $row['uid'] . '][confirmed]=0';
-            $cells['primary']['confirmed'] = '<a class="btn btn-default t3js-record-confirm" target="_blank" href="'.$uri.'"'
-                . ' title="Login in FE">'
-                . $this -> iconFactory -> getIcon('feadmin-switch-to-user', Icon::SIZE_SMALL) -> render() . '</a>';
+                $cells['primary']['confirmed'] = '<a class="btn btn-default t3js-record-confirm" target="_blank" href="' . $uri . '"'
+                    . ' title="Login in FE">'
+                    . $this->iconFactory->getIcon('feadmin-switch-to-user', Icon::SIZE_SMALL)->render() . '</a>';
+            }
         }
         return $cells;
     }
@@ -94,10 +95,10 @@ class FeUserRecordListHook implements RecordListHookInterface {
     /**
      * Ermittelt den FrontendUser.
      * @param int $uid
-     * @return FrontendUser
-     * @throws \Exception
+     * @return FrontendUser|null
+     * throws \Exception
      */
-    private function getFrontendUser(int $uid) : FrontendUser {
+    private function getFrontendUser(int $uid) : ?FrontendUser {
         $user = $this -> frontendUserRepository -> findByUid($uid);
         if(!$user) {
             throw new \Exception("Der gewünschte Benutzer konnte nicht gefunden werden!", 1611618646);
