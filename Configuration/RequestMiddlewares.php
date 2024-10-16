@@ -1,8 +1,11 @@
 <?php
+
+use BoergenerWebdesign\BwFeAdmin\Middleware\SwitchUserMiddleware;
+
 return [
     'frontend' => [
         'feadmin-switch' => [
-            'target' => \BoergenerWebdesign\BwFeAdmin\Middleware\SwitchUserMiddleware::class,
+            'target' => SwitchUserMiddleware::class,
             'after' => [
                 'typo3/cms-frontend/tsfe',
             ],

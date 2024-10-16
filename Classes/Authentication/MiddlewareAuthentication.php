@@ -2,7 +2,9 @@
 
 namespace BoergenerWebdesign\BwFeAdmin\Authentication;
 
+use Doctrine\DBAL\Exception;
 use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Authentication\Mfa\MfaRequiredException;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -16,9 +18,8 @@ class MiddlewareAuthentication extends FrontendUserAuthentication {
      * @param ServerRequestInterface|null $request
      * @param int $userUid
      * @return void
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \Doctrine\DBAL\Driver\Exception
-     * @throws \TYPO3\CMS\Core\Authentication\Mfa\MfaRequiredException
+     * @throws Exception
+     * @throws MfaRequiredException
      */
     public function start(ServerRequestInterface $request = null, int $userUid = -1) {
         $this -> readUserData($userUid);
@@ -42,8 +43,7 @@ class MiddlewareAuthentication extends FrontendUserAuthentication {
      * Reads user data given by uid.
      * @param int $userUid
      * @return void
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws Exception
      */
     private function readUserData(int $userUid) : void {
         /** @var QueryBuilder $queryBuilder */
