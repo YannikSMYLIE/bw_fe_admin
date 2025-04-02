@@ -1,11 +1,11 @@
 {
   "name": "boergenerwebdesign/bw-fe-admin",
   "type": "typo3-cms-extension",
-  "description": "Frontend Login aus dem Backend.",
+  "description": "Frontend Login aus dem Backend",
   "license": "GPL-2.0-or-later",
   "require": {
-    "typo3/cms-core": "^12",
-    "php": "^8.3"
+    "typo3/cms-core": "^12 || ^13",
+    "php": "^8.4"
   },
   "extra": {
     "typo3/cms": {
